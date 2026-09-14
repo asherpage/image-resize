@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import UploadPanel from './UploadPanel.jsx';
 
 function ImageCard({ item }) {
   const [status, setStatus] = useState('loading'); // loading | ok | error
@@ -61,6 +62,7 @@ function ImageCard({ item }) {
 }
 
 export default function App() {
+  const [mode, setMode] = useState('sheet'); // sheet | upload
   const [sheetUrl, setSheetUrl] = useState('');
   const [state, setState] = useState('idle'); // idle | loading | ready | error
   const [items, setItems] = useState([]);
@@ -89,34 +91,66 @@ export default function App() {
   return (
     <div className="page">
       <header>
-        <p className="eyebrow">{meta.siteName || 'Image Resizer'}</p>
-        <h1>Resize oversized site images</h1>
+        <p className="eyebrow">{mode === 'sheet' ? (meta.siteName || 'Image Resizer') : 'Image Resizer'}</p>
+        <h1>Resize oversized images</h1>
         <p className="lede">
-          Paste a Siteimprove "Images larger than 1&nbsp;MB" Google Sheet export link below.
-          Every oversized image gets re-compressed to roughly <strong>300&nbsp;KB</strong> and
-          shown below, each linked to the page it belongs to &mdash; right-click any photo and
-          choose <strong>Save Image As&hellip;</strong> to download it.
+          {mode === 'sheet' ? (
+            <>
+              Paste a Siteimprove "Images larger than 1&nbsp;MB" Google Sheet export link below.
+              Every oversized image gets re-compressed to roughly <strong>300&nbsp;KB</strong> and
+              shown below, each linked to the page it belongs to.
+            </>
+          ) : (
+            <>
+              Pick individual image files or a .zip of images. Each one gets re-compressed to
+              roughly <strong>300&nbsp;KB</strong> — there's no page/site info for these since
+              they didn't come from a sheet.
+            </>
+          )}
+          {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
         </p>
-        <form className="input-row" onSubmit={handleGenerate}>
-          <input
-            type="text"
-            placeholder="Paste your Google Sheet link here"
-            value={sheetUrl}
-            onChange={(e) => setSheetUrl(e.target.value)}
-          />
-          <button type="submit" disabled={state === 'loading'}>
-            {state === 'loading' ? 'Loading…' : 'Generate'}
+
+        <div className="mode-toggle">
+          <button
+            type="button"
+            className={mode === 'sheet' ? 'active' : ''}
+            onClick={() => setMode('sheet')}
+          >
+            From Google Sheet
           </button>
-        </form>
-        {state === 'error' && <p className="error-box">{error}</p>}
-        {state === 'ready' && (
-          <div className="statbar">
-            <span className="stat">Images <b>{items.length}</b></span>
-          </div>
+          <button
+            type="button"
+            className={mode === 'upload' ? 'active' : ''}
+            onClick={() => setMode('upload')}
+          >
+            Upload Images
+          </button>
+        </div>
+
+        {mode === 'sheet' && (
+          <>
+            <form className="input-row" onSubmit={handleGenerate}>
+              <input
+                type="text"
+                placeholder="Paste your Google Sheet link here"
+                value={sheetUrl}
+                onChange={(e) => setSheetUrl(e.target.value)}
+              />
+              <button type="submit" disabled={state === 'loading'}>
+                {state === 'loading' ? 'Loading…' : 'Generate'}
+              </button>
+            </form>
+            {state === 'error' && <p className="error-box">{error}</p>}
+            {state === 'ready' && (
+              <div className="statbar">
+                <span className="stat">Images <b>{items.length}</b></span>
+              </div>
+            )}
+          </>
         )}
       </header>
 
-      {state === 'ready' && (
+      {mode === 'sheet' && state === 'ready' && (
         <main>
           <div className="grid">
             {items.map((item) => (
@@ -126,8 +160,16 @@ export default function App() {
         </main>
       )}
 
+      {mode === 'upload' && (
+        <main>
+          <UploadPanel />
+        </main>
+      )}
+
       <footer>
-        Works with any Siteimprove "Images larger than 1 MB" export. The sheet must be shared as "Anyone with the link can view".
+        {mode === 'sheet'
+          ? 'Works with any Siteimprove "Images larger than 1 MB" export. The sheet must be shared as "Anyone with the link can view".'
+          : 'Uploaded images are processed and discarded — nothing is stored.'}
       </footer>
     </div>
   );

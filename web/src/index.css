@@ -75,6 +75,30 @@ h1 {
 }
 .lede strong { color: var(--ink); }
 
+.mode-toggle {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 3px;
+  margin-bottom: 18px;
+}
+.mode-toggle button {
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.mode-toggle button.active {
+  background: var(--accent);
+  color: white;
+}
+
 .input-row {
   display: flex;
   gap: 10px;
