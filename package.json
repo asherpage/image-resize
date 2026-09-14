@@ -1,0 +1,16 @@
+{
+  "name": "img-resizer",
+  "version": "1.0.0",
+  "description": "Downloads oversized images from the ASU Alumni image-policy audit sheet, resizes them to ~300KB, and produces an Excel report with the resized images and their page info in the original order.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "csv-parse": "^7.0.2",
+    "exceljs": "^4.4.0",
+    "sharp": "^0.35.4"
+  }
+}
