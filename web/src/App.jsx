@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import UploadPanel from './UploadPanel.jsx';
+import CropToSpecPanel from './CropToSpecPanel.jsx';
 
 function ImageCard({ item }) {
   const [status, setStatus] = useState('loading'); // loading | ok | error
@@ -62,7 +63,7 @@ function ImageCard({ item }) {
 }
 
 export default function App() {
-  const [mode, setMode] = useState('sheet'); // sheet | upload
+  const [mode, setMode] = useState('sheet'); // sheet | upload | crop
   const [sheetUrl, setSheetUrl] = useState('');
   const [state, setState] = useState('idle'); // idle | loading | ready | error
   const [items, setItems] = useState([]);
@@ -94,20 +95,32 @@ export default function App() {
         <p className="eyebrow">{mode === 'sheet' ? (meta.siteName || 'Image Resizer') : 'Image Resizer'}</p>
         <h1>Resize oversized images</h1>
         <p className="lede">
-          {mode === 'sheet' ? (
+          {mode === 'sheet' && (
             <>
               Paste a Siteimprove "Images larger than 1&nbsp;MB" Google Sheet export link below.
               Every oversized image gets re-compressed to roughly <strong>300&nbsp;KB</strong> and
               shown below, each linked to the page it belongs to.
+              {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
             </>
-          ) : (
+          )}
+          {mode === 'upload' && (
             <>
               Pick individual image files or a .zip of images. Each one gets re-compressed to
               roughly <strong>300&nbsp;KB</strong> — there's no page/site info for these since
               they didn't come from a sheet.
+              {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
             </>
           )}
-          {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
+          {mode === 'crop' && (
+            <>
+              Pick a target below, then choose images (or a .zip). Every image gets
+              center-cropped to <strong>exactly</strong> that pixel size, whatever its original
+              aspect ratio &mdash; a square photo picked for Header still comes out a proper
+              1920&times;935 header. Filenames are cleaned up to letters, numbers, and
+              hyphens only, with the target type appended.
+              {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
+            </>
+          )}
         </p>
 
         <div className="mode-toggle">
@@ -124,6 +137,13 @@ export default function App() {
             onClick={() => setMode('upload')}
           >
             Upload Images
+          </button>
+          <button
+            type="button"
+            className={mode === 'crop' ? 'active' : ''}
+            onClick={() => setMode('crop')}
+          >
+            Crop to Spec
           </button>
         </div>
 
@@ -166,10 +186,16 @@ export default function App() {
         </main>
       )}
 
+      {mode === 'crop' && (
+        <main>
+          <CropToSpecPanel />
+        </main>
+      )}
+
       <footer>
-        {mode === 'sheet'
-          ? 'Works with any Siteimprove "Images larger than 1 MB" export. The sheet must be shared as "Anyone with the link can view".'
-          : 'Uploaded images are processed and discarded — nothing is stored.'}
+        {mode === 'sheet' &&
+          'Works with any Siteimprove "Images larger than 1 MB" export. The sheet must be shared as "Anyone with the link can view".'}
+        {mode !== 'sheet' && 'Uploaded images are processed and discarded — nothing is stored.'}
       </footer>
     </div>
   );

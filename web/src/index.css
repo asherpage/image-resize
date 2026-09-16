@@ -99,6 +99,40 @@ h1 {
   color: white;
 }
 
+.variant-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.variant-toggle button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.variant-toggle button.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.variant-toggle button:disabled { opacity: 0.6; cursor: default; }
+.variant-dims {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.variant-toggle button.active .variant-dims { color: var(--accent); }
+
 .input-row {
   display: flex;
   gap: 10px;
