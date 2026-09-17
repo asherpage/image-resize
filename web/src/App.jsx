@@ -4,7 +4,7 @@ import CropToSpecPanel from './CropToSpecPanel.jsx';
 
 function ImageCard({ item }) {
   const [status, setStatus] = useState('loading'); // loading | ok | error
-  const src = `/api/resize-image?url=${encodeURIComponent(item.imageUrl)}&filename=${encodeURIComponent(item.filename)}`;
+  const src = `/api/resize-image/${encodeURIComponent(item.filename)}?url=${encodeURIComponent(item.imageUrl)}`;
   const sourceLabel = (() => {
     try {
       return decodeURIComponent(new URL(item.imageUrl).pathname.split('/').pop());

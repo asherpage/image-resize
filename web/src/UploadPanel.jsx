@@ -68,7 +68,7 @@ export default function UploadPanel() {
         setItems((prev) => prev.map((p) => (p.id === item.id ? { ...p, status: 'uploading' } : p)));
         try {
           const uploadBlob = await preShrinkIfNeeded(item.blob);
-          const res = await fetch(`/api/resize-upload?filename=${encodeURIComponent(item.filename)}`, {
+          const res = await fetch(`/api/resize-upload/${encodeURIComponent(item.filename)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/octet-stream' },
             body: uploadBlob,

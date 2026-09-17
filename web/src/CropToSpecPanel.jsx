@@ -80,7 +80,7 @@ export default function CropToSpecPanel() {
         try {
           const uploadBlob = await preShrinkIfNeeded(item.blob);
           const res = await fetch(
-            `/api/crop-to-spec?variant=${activeVariant.id}&filename=${encodeURIComponent(item.filename)}`,
+            `/api/crop-to-spec/${encodeURIComponent(item.filename)}?variant=${activeVariant.id}`,
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/octet-stream' },
