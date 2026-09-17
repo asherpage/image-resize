@@ -35,6 +35,7 @@ function ImageCard({ item }) {
           <span className="size-orig">{item.originalSize || '—'}</span>
           <span className="arrow">&rarr;</span>
           <span className="size-new">~300 KB</span>
+          <a className="download-btn" href={src} download={item.filename}>Download</a>
         </div>
         <div className="field">
           <span className="label">Page</span>
@@ -100,7 +101,7 @@ export default function App() {
               Paste a Siteimprove "Images larger than 1&nbsp;MB" Google Sheet export link below.
               Every oversized image gets re-compressed to roughly <strong>300&nbsp;KB</strong> and
               shown below, each linked to the page it belongs to.
-              {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
+              {' '}Click <strong>Download</strong> on any photo to save it with its real filename.
             </>
           )}
           {mode === 'upload' && (
@@ -108,7 +109,7 @@ export default function App() {
               Pick individual image files or a .zip of images. Each one gets re-compressed to
               roughly <strong>300&nbsp;KB</strong> — there's no page/site info for these since
               they didn't come from a sheet.
-              {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
+              {' '}Click <strong>Download</strong> on any photo to save it with its real filename.
             </>
           )}
           {mode === 'crop' && (
@@ -118,7 +119,7 @@ export default function App() {
               aspect ratio &mdash; a square photo picked for Header still comes out a proper
               1920&times;935 header. Filenames are cleaned up to letters, numbers, and
               hyphens only, with the target type appended.
-              {' '}Right-click any photo and choose <strong>Save Image As&hellip;</strong> to download it.
+              {' '}Click <strong>Download</strong> on any photo to save it with its real filename.
             </>
           )}
         </p>

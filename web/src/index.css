@@ -266,6 +266,20 @@ main { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
 .arrow { color: var(--muted); }
 .size-new { color: var(--good); font-weight: 500; }
 
+.download-btn {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.download-btn:hover { filter: brightness(0.95); }
+
 .field { font-size: 13px; }
 .label {
   display: block;

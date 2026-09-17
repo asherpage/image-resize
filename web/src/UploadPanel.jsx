@@ -28,6 +28,9 @@ function UploadCard({ item }) {
           <span className="size-orig">{humanSize(item.originalBytes)}</span>
           <span className="arrow">&rarr;</span>
           <span className="size-new">{item.status === 'ok' ? humanSize(item.resizedBytes) : '—'}</span>
+          {item.status === 'ok' && (
+            <a className="download-btn" href={item.resultUrl} download={item.filename}>Download</a>
+          )}
         </div>
       </div>
     </article>

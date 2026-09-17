@@ -37,6 +37,9 @@ function CropCard({ item, variant }) {
           <span className="size-new">
             {item.status === 'ok' ? `${variant.width}×${variant.height}, ${humanSize(item.resizedBytes)}` : '—'}
           </span>
+          {item.status === 'ok' && (
+            <a className="download-btn" href={item.resultUrl} download={item.filename}>Download</a>
+          )}
         </div>
       </div>
     </article>
